@@ -26,7 +26,7 @@ async function main() {
 
     const [sender] = await hre.ethers.getSigners();
 
-    let eth_amount = 42000000;
+    let eth_amount = 320000000;
     let addresses = [WETH.address, BAT.address];
 
     let amounts = await UniRouterV2.getAmountsOut(eth_amount, addresses).catch(err => {
@@ -35,11 +35,11 @@ async function main() {
     console.log('ETH V2: ' + amounts[0]);
     console.log('BAT V2: ' + amounts[1]);
 
-    let bat_amount = await Quoter.quoteExactInputSingle(WETH.address, BAT.address, 3000, 0, eth_amount).catch(err => {
+    let bat_amount = await Quoter.callStatic.quoteExactInputSingle(WETH.address, BAT.address, 3000, eth_amount, 0).catch(err => {
         console.log(err);
     });
     console.log('ETH V2: ' + eth_amount);
-    console.log('BAT V2: ' + bat_amount);
+    console.log('BAT V2: ' + BigNumber.from(bat_amount).toNumber());
 
 
 
